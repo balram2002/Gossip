@@ -49,7 +49,7 @@ const Actions = ({ post, user: userpost }) => {
 
 			if (!liked) {
 				// add the id of the current user to post.likes array
-				const updatedPosts = posts.map((p) => {
+				const updatedPosts = posts?.map((p) => {
 					if (p._id === post._id) {
 						return { ...p, likes: [...p.likes, user._id] };
 					}
@@ -58,7 +58,7 @@ const Actions = ({ post, user: userpost }) => {
 				setPosts(updatedPosts);
 			} else {
 				// remove the id of the current user from post.likes array
-				const updatedPosts = posts.map((p) => {
+				const updatedPosts = posts?.map((p) => {
 					if (p._id === post._id) {
 						return { ...p, likes: p.likes.filter((id) => id !== user._id) };
 					}
@@ -90,7 +90,7 @@ const Actions = ({ post, user: userpost }) => {
 			const data = await res.json();
 			if (data.error) return showToast("Error", data.error, "error");
 
-			const updatedPosts = posts.map((p) => {
+			const updatedPosts = posts?.map((p) => {
 				if (p._id === post._id) {
 					return { ...p, replies: [...p.replies, data] };
 				}
