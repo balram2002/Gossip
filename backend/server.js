@@ -5,7 +5,6 @@ import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
-import messageRoutes from "./routes/messageRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 
@@ -38,7 +37,6 @@ app.use(cookieParser());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/messages", messageRoutes);
 
 // http://localhost:5000 => backend,frontend
 
