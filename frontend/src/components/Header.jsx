@@ -20,7 +20,7 @@ const Header = () => {
 		<Box rounded={"lg"} boxShadow={"lg"}>
 			<Flex justifyContent={"space-between"} mt={3} mb='12' >
 				{user && (
-					<Link as={RouterLink} to='/'>
+					<Link as={RouterLink} to='/home'>
 						<AiFillHome size={24} />
 					</Link>
 				)}
