@@ -138,23 +138,6 @@ const followUnFollowUser = async (req, res) => {
 	}
 };
 
-const getFollowersAndFollowing = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const userToModify = await User.findById(id);
-
-		if (!userToModify) return res.status(400).json({ error: "User not found" });
-
-		res.status(200).json(userToModify);
-
-
-
-	} catch (err) {
-		res.status(500).json({ error: err.message });
-		console.log("Error in getFollowersAndFollowing: ", err.message);
-	}
-};
-
 const updateUser = async (req, res) => {
 	const { name, email, username, password, bio } = req.body;
 	let { profilePic } = req.body;
@@ -265,5 +248,4 @@ export {
 	getUserProfile,
 	getSuggestedUsers,
 	freezeAccount,
-	getFollowersAndFollowing,
 };
