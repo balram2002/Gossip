@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
 import job from "./cron/cron.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -16,7 +17,12 @@ connectDB();
 job.start();
 
 const PORT = process.env.PORT || 5000;
-const __dirname = path.resolve();
+
+app.use(cors({
+	origin: ["https://gossip-api.vercel.app", "https://gossips-bd.vercel.app"],
+	methods: ["POST", "GET", "PUT", "DELETE"],
+	credentials: true
+}));
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -25,7 +31,7 @@ cloudinary.config({
 });
 
 // Middlewares
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "80mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
