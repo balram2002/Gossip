@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Link, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Image, Link, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { AiFillHome } from "react-icons/ai";
@@ -18,9 +18,9 @@ const Header = () => {
 
 	return (
 		<Box rounded={"lg"} boxShadow={"lg"}>
-			<Flex justifyContent={"space-between"} mt={3} mb='12' >
+			<Flex justifyContent={"space-between"} mt={3} mb='2' >
 				{user && (
-					<Link as={RouterLink} to='/home'>
+					<Link as={RouterLink} to='/' mt={1.5}>
 						<AiFillHome size={24} />
 					</Link>
 				)}
@@ -30,8 +30,8 @@ const Header = () => {
 					</Link>
 				)}
 
-				<Flex gap={1}>
-					<Text marginTop={1}>
+				<Flex gap={0.5}>
+					<Text marginTop={1} fontWeight={"500"}>
 						Gos
 					</Text>
 
@@ -43,7 +43,7 @@ const Header = () => {
 						onClick={toggleColorMode}
 					/>
 
-					<Text marginTop={1}>
+					<Text marginTop={1} fontWeight={"500"}>
 						sip
 					</Text>
 				</Flex>
@@ -71,6 +71,8 @@ const Header = () => {
 					</Link>
 				)}
 			</Flex>
+			<Divider mb={5} />
+
 		</Box>
 	);
 };

@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Divider, Flex, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import SuggestedUser from "./SuggestedUser";
 import useShowToast from "../hooks/useShowToast";
@@ -32,9 +32,11 @@ const SuggestedUsers = () => {
 	return (
 		<>
 			<Box rounded={"lg"} bg={useColorModeValue("white", "gray.dark")} boxShadow={"lg"} p={4}>
-				<Text mb={4} fontWeight={"bold"}>
+				<Text mb={3} fontWeight={"bold"}>
 					Suggested Users
 				</Text>
+				<Divider mb={3} />
+
 				<Flex direction={"column"} gap={4}>
 					{!loading && suggestedUsers?.map((user) => <SuggestedUser key={user._id} user={user} />)}
 					{loading &&

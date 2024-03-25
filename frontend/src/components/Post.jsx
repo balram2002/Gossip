@@ -85,6 +85,12 @@ const Post = ({ post, postedBy }) => {
 									top={"0px"}
 									left='15px'
 									padding={"2px"}
+									border={"1px solid white"}
+									cursor={"pointer"}
+									onClick={(e) => {
+										e.preventDefault();
+										navigate(`/${post.replies[0].username}`)
+									}}
 								/>
 							)}
 
@@ -97,6 +103,12 @@ const Post = ({ post, postedBy }) => {
 									bottom={"0px"}
 									right='-5px'
 									padding={"2px"}
+									border={"1px solid white"}
+									cursor={"pointer"}
+									onClick={(e) => {
+										e.preventDefault();
+										navigate(`/${post.replies[1].username}`)
+									}}
 								/>
 							)}
 
@@ -109,6 +121,12 @@ const Post = ({ post, postedBy }) => {
 									bottom={"0px"}
 									left='4px'
 									padding={"2px"}
+									border={"1px solid white"}
+									cursor={"pointer"}
+									onClick={(e) => {
+										e.preventDefault();
+										navigate(`/${post.replies[2].username}`)
+									}}
 								/>
 							)}
 						</Box>

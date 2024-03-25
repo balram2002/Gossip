@@ -101,7 +101,7 @@ const CreatePost = () => {
 				<ModalOverlay />
 
 				<ModalContent>
-					<ModalHeader>Create Post</ModalHeader>
+					<ModalHeader>Create Post, {username}</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						<FormControl>
@@ -118,7 +118,7 @@ const CreatePost = () => {
 
 							<BsFillImageFill
 								style={{ marginLeft: "5px", cursor: "pointer" }}
-								size={16}
+								size={18}
 								onClick={() => imageRef.current.click()}
 							/>
 						</FormControl>

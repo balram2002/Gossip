@@ -119,6 +119,7 @@ const Actions = ({ post, user: userpost }) => {
 						role='img'
 						viewBox='0 0 24 22'
 						width='20'
+						cursor={"pointer"}
 						onClick={handleLikeAndUnlike}
 					>
 						<path
@@ -136,6 +137,7 @@ const Actions = ({ post, user: userpost }) => {
 						role='img'
 						viewBox='0 0 24 24'
 						width='20'
+						cursor={"pointer"}
 						onClick={onOpen}
 					>
 						<title>Comment</title>

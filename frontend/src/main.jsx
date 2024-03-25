@@ -33,7 +33,6 @@ const colors = {
 const theme = extendTheme({ config, styles, colors });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	// React.StrictMode renders every component twice (in the initial render), only in development.
 	<RecoilRoot>
 		<BrowserRouter>
 			<ChakraProvider theme={theme}>

@@ -1,13 +1,15 @@
 import { Avatar, Divider, Flex, Text } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 
 const Comment = ({ reply, lastReply }) => {
+	const navigate = useNavigate();
 	return (
 		<>
 			<Flex gap={4} py={2} my={2} w={"full"}>
-				<Avatar src={reply.userProfilePic} size={"sm"} />
+				<Avatar src={reply.userProfilePic} size={"sm"} border={"1px solid white"} cursor={"pointer"} onClick={() => navigate(`/${reply.username}`)} />
 				<Flex gap={1} w={"full"} flexDirection={"column"}>
 					<Flex w={"full"} justifyContent={"space-between"} alignItems={"center"}>
-						<Text fontSize='sm' fontWeight='bold'>
+						<Text cursor={"pointer"} fontSize='sm' fontWeight='bold' onClick={() => navigate(`/${reply.username}`)}>
 							{reply.username}
 						</Text>
 					</Flex>
