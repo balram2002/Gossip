@@ -15,7 +15,7 @@ function ShareModal({ show, setShow, data, media }) {
     };
     const showToast = useShowToast();
 
-    const url = `https://moviesverse.vercel.app/${media}/${data}`;
+    const url = `https://gossips-bd.vercel.app/${data?.username}`;
 
     const handleCopy = (e) => {
         e.preventDefault()

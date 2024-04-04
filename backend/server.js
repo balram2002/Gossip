@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
-import job from "./cron/cron.js";
 import cors from "cors";
 
 dotenv.config();
@@ -13,7 +12,6 @@ dotenv.config();
 const app = express();
 
 connectDB();
-job.start();
 
 const PORT = process.env.PORT || 5000;
 
