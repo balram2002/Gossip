@@ -7,5 +7,12 @@ export default defineConfig({
 	server: {
 		port: 3000,
 		// Get rid of the CORS error
+		proxy: {
+			"/api": {
+				target: "https://gossip-api.vercel.app",
+				changeOrigin: true,
+				secure: false,
+			},
+		},
 	},
 });

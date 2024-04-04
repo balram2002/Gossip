@@ -17,7 +17,7 @@ const HomePage = () => {
 			setLoading(true);
 			setPosts([]);
 			try {
-				const res = await fetch("https://gossip-api.vercel.app/api/posts/feed");
+				const res = await fetch("/api/posts/feed");
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -40,8 +40,8 @@ const HomePage = () => {
 			<Flex gap='8' alignItems={"flex-start"}>
 				<Box flex={70} rounded={"lg"} bg={useColorModeValue("white", "gray.light")} marginY={1} boxShadow={"lg"} p={2} paddingRight={4}>
 					{!loading && posts.length === 0 && <Text textAlign={"center"} alignItems={"center"}>Follow some users to see the feed</Text>}
-					{!loading && posts.length >= 0 && <Text mb={4} textAlign={"center"} alignItems={"center"}> Posts Feed based on your following :</Text>}
-					{!loading && posts.length >= 0 && <Divider mb={5} />}
+					{!loading && post.length >= 0 && <Text mb={4} textAlign={"center"} alignItems={"center"}> Posts Feed based on your following :</Text>}
+					{!loading && post.length >= 0 && <Divider mb={5} />}
 
 					{loading && (
 						<Flex justify='center'>
@@ -49,7 +49,7 @@ const HomePage = () => {
 						</Flex>
 					)}
 
-					{!loading && post?.map((post) => (
+					{!loading && posts?.map((post) => (
 						<Post key={post._id} post={post} postedBy={post.postedBy} />
 					))}
 				</Box>
