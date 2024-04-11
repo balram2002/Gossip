@@ -56,6 +56,9 @@ const Header = () => {
 						<Link as={RouterLink} to={`/${user.username}`}>
 							<RxAvatar size={24} />
 						</Link>
+						<Link as={RouterLink} to={`/chat`}>
+							<BsFillChatQuoteFill size={20} />
+						</Link>
 						<Link as={RouterLink} to={`/settings`}>
 							<MdOutlineSettings size={20} />
 						</Link>

@@ -39,9 +39,9 @@ const HomePage = () => {
 		<Box >
 			<Flex gap='8' alignItems={"flex-start"}>
 				<Box flex={70} rounded={"lg"} bg={useColorModeValue("white", "gray.light")} marginY={1} boxShadow={"lg"} p={2} paddingRight={4}>
-					{!loading && posts.length === 0 && <Text textAlign={"center"} alignItems={"center"}>Follow some users to see the feed</Text>}
-					{!loading && post.length >= 0 && <Text mb={4} textAlign={"center"} alignItems={"center"}> Posts Feed based on your following :</Text>}
-					{!loading && post.length >= 0 && <Divider mb={5} />}
+					{!loading && posts?.length === 0 && <Text textAlign={"center"} alignItems={"center"}>Follow some users to see the feed</Text>}
+					{!loading && post?.length >= 0 && <Text mb={4} textAlign={"center"} alignItems={"center"}> Posts Feed based on your following :</Text>}
+					{!loading && post?.length >= 0 && <Divider mb={5} />}
 
 					{loading && (
 						<Flex justify='center'>

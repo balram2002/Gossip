@@ -1,25 +1,22 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
-import cors from "cors";
+import { app, server } from "./socket/socket.js";
+import job from "./cron/cron.js";
 
 dotenv.config();
 
-const app = express();
-
 connectDB();
+job.start();
 
 const PORT = process.env.PORT || 5000;
-
-app.use(cors({
-	origin: ["https://gossip-api.vercel.app", "https://gossips-bd.vercel.app"],
-	methods: ["POST", "GET", "PUT", "DELETE"],
-	credentials: true
-}));
+const __dirname = path.resolve();
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -27,14 +24,21 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Middlewares
-app.use(express.json({ limit: "80mb" }));
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Routes
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/messages", messageRoutes);
+
+// http://localhost:5000 => backend,frontend
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+});
 
 
-app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`));
