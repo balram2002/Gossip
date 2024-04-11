@@ -26,6 +26,12 @@ CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
 ```
 
+### install dependencies
+
+```shell
+npm install
+```
+
 ### Build the app
 
 ```shell
