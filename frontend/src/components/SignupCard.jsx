@@ -13,6 +13,7 @@ import {
 	Text,
 	useColorModeValue,
 	Link,
+        FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -76,6 +77,7 @@ export default function SignupCard() {
 										onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
 										value={inputs.name}
 									/>
+									<FormHelperText>can use spaces. </FormHelperText>
 								</FormControl>
 							</Box>
 							<Box>
@@ -86,6 +88,7 @@ export default function SignupCard() {
 										onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
 										value={inputs.username}
 									/>
+									<FormHelperText>Use of special chars and spaces are not allowed.</FormHelperText>
 								</FormControl>
 							</Box>
 						</HStack>
@@ -96,6 +99,7 @@ export default function SignupCard() {
 								onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
 								value={inputs.email}
 							/>
+							<FormHelperText>We'll never share your email.</FormHelperText>
 						</FormControl>
 						<FormControl isRequired>
 							<FormLabel>Password</FormLabel>
