@@ -1,3 +1,4 @@
+# MERN Full Stack Project: Build a Complex Full Stack Social Media Application | Realtime Chatting with seen/unseen, images support
 
 Feature List:
 
