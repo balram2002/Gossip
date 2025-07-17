@@ -107,10 +107,11 @@ const logoutUser = (req, res) => {
 const followUnFollowUser = async (req, res) => {
 	try {
 		const { id } = req.params;
+		const { userId } = req.body;
 		const userToModify = await User.findById(id);
-		const currentUser = await User.findById(req.user._id);
+		const currentUser = await User.findById(userId);
 
-		if (id === req.user._id.toString())
+		if (id === userId.toString())
 			return res.status(400).json({ error: "You cannot follow/unfollow yourself" });
 
 		if (!userToModify || !currentUser) return res.status(400).json({ error: "User not found" });
@@ -118,12 +119,12 @@ const followUnFollowUser = async (req, res) => {
 		const isFollowing = currentUser.following.includes(id);
 
 		if (isFollowing) {
-			await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
-			await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
+			await User.findByIdAndUpdate(id, { $pull: { followers: userId } });
+			await User.findByIdAndUpdate(userId, { $pull: { following: id } });
 			res.status(200).json({ message: "User unfollowed successfully" });
 		} else {
-			await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
-			await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
+			await User.findByIdAndUpdate(id, { $push: { followers: userId } });
+			await User.findByIdAndUpdate(userId, { $push: { following: id } });
 			res.status(200).json({ message: "User followed successfully" });
 		}
 	} catch (err) {
@@ -136,7 +137,7 @@ const updateUser = async (req, res) => {
 	const { name, email, username, password, bio } = req.body;
 	let { profilePic } = req.body;
 
-	const userId = req.user._id;
+	const {userId} = req.body;
 	try {
 		let user = await User.findById(userId);
 		if (!user) return res.status(400).json({ error: "User not found" });
@@ -189,7 +190,7 @@ const updateUser = async (req, res) => {
 
 const getSuggestedUsers = async (req, res) => {
 	try {
-		const userId = req.user._id;
+		const {userId} = req.body;
 
 		const usersFollowedByYou = await User.findById(userId).select("following");
 
@@ -216,7 +217,8 @@ const getSuggestedUsers = async (req, res) => {
 
 const freezeAccount = async (req, res) => {
 	try {
-		const user = await User.findById(req.user._id);
+		const { userId } = req.body;
+		const user = await User.findById(userId);
 		if (!user) {
 			return res.status(400).json({ error: "User not found" });
 		}

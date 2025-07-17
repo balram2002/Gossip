@@ -19,7 +19,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
-import ShareModal from "./sharemodal/ShareModal";
+import { API_BASE_URL } from "../atoms/apiUrls";
+import { RWebShare } from 'react-web-share';
 
 const Actions = ({ post, user: userpost }) => {
 	const user = useRecoilValue(userAtom);
@@ -38,11 +39,12 @@ const Actions = ({ post, user: userpost }) => {
 		if (isLiking) return;
 		setIsLiking(true);
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/posts/like/" + post._id, {
+			const res = await fetch(API_BASE_URL + "/api/posts/like/" + post._id, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
+				body: JSON.stringify({ userId: user?._id }),
 			});
 			const data = await res.json();
 			if (data.error) return showToast("Error", data.error, "error");
@@ -80,12 +82,17 @@ const Actions = ({ post, user: userpost }) => {
 		if (isReplying) return;
 		setIsReplying(true);
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/posts/reply/" + post._id, {
+			const res = await fetch(API_BASE_URL + "/api/posts/reply/" + post._id, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ text: reply }),
+				body: JSON.stringify({
+					text: reply,
+					userId: user?._id,
+					userProfilePic: user?.profilePic,
+					username: user?.username,
+				}),
 			});
 			const data = await res.json();
 			if (data.error) return showToast("Error", data.error, "error");
@@ -150,7 +157,14 @@ const Actions = ({ post, user: userpost }) => {
 						></path>
 					</svg>
 
-					<svg
+					<RWebShare
+						data={{
+							text: `Gossip shared Post.`,
+							url: `${API_BASE_URL}/${user?.username}/post/${post._id}`,
+							title: "Gossip Shared " + post?.text?.substr(0, 10) + "...",
+						}}
+					>
+<svg
 						aria-label='Share'
 						color=''
 						fill='rgb(243, 245, 247)'
@@ -159,9 +173,6 @@ const Actions = ({ post, user: userpost }) => {
 						viewBox='0 0 24 24'
 						width='20'
 						cursor={"pointer"}
-						onClick={() => {
-							setShowModal(true);
-						}}
 					>
 						<title>Share</title>
 						<line
@@ -182,6 +193,7 @@ const Actions = ({ post, user: userpost }) => {
 							strokeWidth='2'
 						></polygon>
 					</svg>
+					</RWebShare>
 				</Flex>
 
 				<Flex gap={2} alignItems={"center"}>
@@ -217,12 +229,6 @@ const Actions = ({ post, user: userpost }) => {
 					</ModalContent>
 				</Modal>
 			</Flex>
-			<ShareModal
-				show={showModal}
-				setShow={setShowModal}
-				data={post._id}
-				media="post"
-			/>
 		</>
 	);
 };

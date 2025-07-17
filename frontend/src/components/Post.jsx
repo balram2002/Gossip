@@ -11,6 +11,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import postsAtom from "../atoms/postsAtom";
 import { useColorModeValue } from "@chakra-ui/react";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const Post = ({ post, postedBy }) => {
 	const [user, setUser] = useState(null);
@@ -22,7 +23,7 @@ const Post = ({ post, postedBy }) => {
 	useEffect(() => {
 		const getUser = async () => {
 			try {
-				const res = await fetch("https://gossip-api.vercel.app/api/users/profile/" + postedBy);
+				const res = await fetch(API_BASE_URL + "/api/users/profile/" + postedBy);
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -43,8 +44,9 @@ const Post = ({ post, postedBy }) => {
 			e.preventDefault();
 			if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-			const res = await fetch(`https://gossip-api.vercel.app/api/posts/${post._id}`, {
-				method: "DELETE",
+			const res = await fetch(`${API_BASE_URL}/api/posts/delete/${post?._id}/${currentUser?._id}`, {
+				method: "POST",
+				body: JSON.stringify({ userId: currentUser?._id }),
 			});
 			const data = await res.json();
 			if (data.error) {
@@ -57,6 +59,7 @@ const Post = ({ post, postedBy }) => {
 			showToast("Error", error.message, "error");
 		}
 	};
+	console.log(postedBy, currentUser?._id)
 
 	if (!user) return null;
 	return (

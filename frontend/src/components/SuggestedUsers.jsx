@@ -2,17 +2,29 @@ import { Box, Divider, Flex, Skeleton, SkeletonCircle, Text, useColorModeValue }
 import { useEffect, useState } from "react";
 import SuggestedUser from "./SuggestedUser";
 import useShowToast from "../hooks/useShowToast";
+import { API_BASE_URL } from "../atoms/apiUrls";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const SuggestedUsers = () => {
 	const [loading, setLoading] = useState(true);
 	const [suggestedUsers, setSuggestedUsers] = useState([]);
 	const showToast = useShowToast();
+	const user = useRecoilValue(userAtom);
 
 	useEffect(() => {
 		const getSuggestedUsers = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch("https://gossip-api.vercel.app/api/users/suggested");
+				const res = await fetch(API_BASE_URL + "/api/users/suggested", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: user?._id,
+				}),
+			});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");

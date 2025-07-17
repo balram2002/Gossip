@@ -7,6 +7,7 @@ import Post from "../components/Post";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const UserPage = () => {
 	const { user, loading } = useGetUserProfile();
@@ -20,7 +21,7 @@ const UserPage = () => {
 			if (!user) return;
 			setFetchingPosts(true);
 			try {
-				const res = await fetch(`https://gossip-api.vercel.app/api/posts/user/${username}`);
+				const res = await fetch(`${API_BASE_URL}/api/posts/user/${username}`);
 				const data = await res.json();
 				console.log(data);
 				setPosts(data);

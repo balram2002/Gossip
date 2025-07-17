@@ -20,6 +20,8 @@ import { conversationsAtom, selectedConversationAtom } from "../atoms/messagesAt
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { BsFillImageFill } from "react-icons/bs";
 import usePreviewImg from "../hooks/usePreviewImg";
+import { API_BASE_URL } from "../atoms/apiUrls";
+import userAtom from "../atoms/userAtom";
 
 const MessageInput = ({ setMessages }) => {
 	const [messageText, setMessageText] = useState("");
@@ -30,6 +32,7 @@ const MessageInput = ({ setMessages }) => {
 	const { onClose } = useDisclosure();
 	const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
 	const [isSending, setIsSending] = useState(false);
+	const user = useRecoilValue(userAtom);
 
 	const handleSendMessage = async (e) => {
 		e.preventDefault();
@@ -39,7 +42,7 @@ const MessageInput = ({ setMessages }) => {
 		setIsSending(true);
 
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/messages", {
+			const res = await fetch(API_BASE_URL + "/api/messages", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -48,6 +51,7 @@ const MessageInput = ({ setMessages }) => {
 					message: messageText,
 					recipientId: selectedConversation.userId,
 					img: imgUrl,
+					userId: user?._id,
 				}),
 			});
 			const data = await res.json();

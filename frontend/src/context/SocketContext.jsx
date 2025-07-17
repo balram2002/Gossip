@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import io from "socket.io-client";
 import userAtom from "../atoms/userAtom";
+import { API_BASE_URL } from './../atoms/apiUrls';
 
 const SocketContext = createContext();
 
@@ -15,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
 	const user = useRecoilValue(userAtom);
 
 	useEffect(() => {
-		const socket = io("https://gossip-api.vercel.app", {
+		const socket = io(API_BASE_URL, {
 			query: {
 				userId: user?._id,
 			},

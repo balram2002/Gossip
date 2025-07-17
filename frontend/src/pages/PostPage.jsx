@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { DeleteIcon } from "@chakra-ui/icons";
 import postsAtom from "../atoms/postsAtom";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const PostPage = () => {
 	const { user, loading } = useGetUserProfile();
@@ -25,7 +26,12 @@ const PostPage = () => {
 		const getPost = async () => {
 			setPosts([]);
 			try {
-				const res = await fetch(`https://gossip-api.vercel.app/api/posts/${pid}`);
+				const res = await fetch(`${API_BASE_URL}/api/posts/${pid}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -43,8 +49,9 @@ const PostPage = () => {
 		try {
 			if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-			const res = await fetch(`https://gossip-api.vercel.app/api/posts/${currentPost._id}`, {
-				method: "DELETE",
+			const res = await fetch(`${API_BASE_URL}/api/posts/delete/${currentPost._id}/${currentUser?._id}`, {
+				method: "POST",
+				body: JSON.stringify({ userId: currentUser?._id }),
 			});
 			const data = await res.json();
 			if (data.error) {
@@ -57,6 +64,7 @@ const PostPage = () => {
 			showToast("Error", error.message, "error");
 		}
 	};
+	console.log("currentUser", currentUser?._id, currentPost?.postedBy);
 
 	if (!user && loading) {
 		return (

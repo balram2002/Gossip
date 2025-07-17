@@ -1,6 +1,7 @@
 import userAtom from "../atoms/userAtom";
 import { useSetRecoilState } from "recoil";
 import useShowToast from "./useShowToast";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const useLogout = () => {
 	const setUser = useSetRecoilState(userAtom);
@@ -8,7 +9,7 @@ const useLogout = () => {
 
 	const logout = async () => {
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/users/logout", {
+			const res = await fetch(API_BASE_URL + "/api/users/logout", {
 				method: "POST",
 				credentials: "include",
 				headers: {

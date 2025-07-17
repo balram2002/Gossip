@@ -21,6 +21,7 @@ import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 import useShowToast from "../hooks/useShowToast";
 import userAtom from "../atoms/userAtom";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 export default function SignupCard() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,7 @@ export default function SignupCard() {
 
 	const handleSignup = async () => {
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/users/signup", {
+			const res = await fetch(API_BASE_URL + "/api/users/signup", {
 				method: "POST",
 				credentials: "include",
 				headers: {

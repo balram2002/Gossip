@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useShowToast from "./useShowToast";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const useGetUserProfile = () => {
 	const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ const useGetUserProfile = () => {
 	useEffect(() => {
 		const getUser = async () => {
 			try {
-				const res = await fetch(`https://gossip-api.vercel.app/api/users/profile/${username}`);
+				const res = await fetch(`${API_BASE_URL}/api/users/profile/${username}`);
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");

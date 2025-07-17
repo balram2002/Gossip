@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { conversationsAtom, selectedConversationAtom } from "../atoms/messagesAtom";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const ChatPage = () => {
 	const [searchingUser, setSearchingUser] = useState(false);
@@ -43,7 +44,15 @@ const ChatPage = () => {
 	useEffect(() => {
 		const getConversations = async () => {
 			try {
-				const res = await fetch("https://gossip-api.vercel.app/api/messages/conversations");
+				const res = await fetch(API_BASE_URL + "/api/messages/conversations", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: currentUser?._id,
+				}),
+			});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -65,7 +74,7 @@ const ChatPage = () => {
 		e.preventDefault();
 		setSearchingUser(true);
 		try {
-			const res = await fetch(`https://gossip-api.vercel.app/api/users/profile/${searchText}`);
+			const res = await fetch(`${API_BASE_URL}/api/users/profile/${searchText}`);
 			const searchedUser = await res.json();
 			if (searchedUser.error) {
 				showToast("Error", searchedUser.error, "error");

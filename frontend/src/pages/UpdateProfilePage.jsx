@@ -15,6 +15,7 @@ import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 export default function UpdateProfilePage() {
 	const [user, setUser] = useRecoilState(userAtom);
@@ -37,12 +38,12 @@ export default function UpdateProfilePage() {
 		if (updating) return;
 		setUpdating(true);
 		try {
-			const res = await fetch(`https://gossip-api.vercel.app/api/users/update/${user._id}`, {
+			const res = await fetch(`${API_BASE_URL}/api/users/update/${user._id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+				body: JSON.stringify({ ...inputs, profilePic: imgUrl, userId: user?._id }),
 			});
 			const data = await res.json(); // updated user object
 			if (data.error) {

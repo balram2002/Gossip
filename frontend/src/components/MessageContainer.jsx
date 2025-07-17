@@ -8,6 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext.jsx";
 import messageSound from "../assets/sounds/message.mp3";
+import { API_BASE_URL } from "../atoms/apiUrls.js";
 const MessageContainer = () => {
 	const showToast = useShowToast();
 	const selectedConversation = useRecoilValue(selectedConversationAtom);
@@ -17,6 +18,7 @@ const MessageContainer = () => {
 	const currentUser = useRecoilValue(userAtom);
 	const { socket } = useSocket();
 	const setConversations = useSetRecoilState(conversationsAtom);
+	const user = useRecoilValue(userAtom);
 	const messageEndRef = useRef(null);
 
 	useEffect(() => {
@@ -88,7 +90,15 @@ const MessageContainer = () => {
 			setMessages([]);
 			try {
 				if (selectedConversation.mock) return;
-				const res = await fetch(`https://gossip-api.vercel.app/api/messages/${selectedConversation.userId}`);
+				const res = await fetch(`${API_BASE_URL}/api/messages/${selectedConversation.userId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: user?._id,
+				}),
+			});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");

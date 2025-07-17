@@ -2,10 +2,11 @@ import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import { v2 as cloudinary } from "cloudinary";
 
-const createPost = async (req, res) => {
+export const createPost = async (req, res) => {
 	try {
 		const { postedBy, text } = req.body;
 		let { img } = req.body;
+		const {userId} = req.body;
 
 		if (!postedBy || !text) {
 			return res.status(400).json({ error: "Postedby and text fields are required" });
@@ -16,7 +17,7 @@ const createPost = async (req, res) => {
 			return res.status(404).json({ error: "User not found" });
 		}
 
-		if (user._id.toString() !== req.user._id.toString()) {
+		if (user._id.toString() !== userId.toString()) {
 			return res.status(401).json({ error: "Unauthorized to create post" });
 		}
 
@@ -40,9 +41,10 @@ const createPost = async (req, res) => {
 	}
 };
 
-const getPost = async (req, res) => {
+export const getPost = async (req, res) => {
+	const { id } = req.params;
 	try {
-		const post = await Post.findById(req.params.id);
+		const post = await Post.findById(id);
 
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
@@ -54,23 +56,26 @@ const getPost = async (req, res) => {
 	}
 };
 
-const deletePost = async (req, res) => {
+export const deletePost = async (req, res) => {
+	const id = req.params.id
+	const { userId } = req.params;
+	// const { userId } = req.body;
 	try {
-		const post = await Post.findById(req.params.id);
+		const post = await Post.findById(id);
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
 		}
-
-		if (post.postedBy.toString() !== req.user._id.toString()) {
+console.log(post.postedBy.toString(), userId)
+		if (post?.postedBy?.toString() !== userId?.toString()) {
 			return res.status(401).json({ error: "Unauthorized to delete post" });
 		}
 
-		if (post.img) {
+		if (post?.img) {
 			const imgId = post.img.split("/").pop().split(".")[0];
 			await cloudinary.uploader.destroy(imgId);
 		}
 
-		await Post.findByIdAndDelete(req.params.id);
+		await post?.deleteOne();
 
 		res.status(200).json({ message: "Post deleted successfully" });
 	} catch (err) {
@@ -78,10 +83,10 @@ const deletePost = async (req, res) => {
 	}
 };
 
-const likeUnlikePost = async (req, res) => {
+export const likeUnlikePost = async (req, res) => {
 	try {
 		const { id: postId } = req.params;
-		const userId = req.user._id;
+		const {userId} = req.body;
 
 		const post = await Post.findById(postId);
 
@@ -106,13 +111,13 @@ const likeUnlikePost = async (req, res) => {
 	}
 };
 
-const replyToPost = async (req, res) => {
+export const replyToPost = async (req, res) => {
 	try {
 		const { text } = req.body;
 		const postId = req.params.id;
-		const userId = req.user._id;
-		const userProfilePic = req.user.profilePic;
-		const username = req.user.username;
+		const {userId} = req.body;
+		const {userProfilePic} = req.body;
+		const {username} = req.body;
 
 		if (!text) {
 			return res.status(400).json({ error: "Text field is required" });
@@ -134,9 +139,10 @@ const replyToPost = async (req, res) => {
 	}
 };
 
-const getFeedPosts = async (req, res) => {
+export const getFeedPosts = async (req, res) => {
 	try {
-		const userId = req.user._id;
+		const {userId} = req.body;
+		console.log(userId + " userId in getFeedPosts");
 		const user = await User.findById(userId);
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
@@ -152,7 +158,7 @@ const getFeedPosts = async (req, res) => {
 	}
 };
 
-const getUserPosts = async (req, res) => {
+export const getUserPosts = async (req, res) => {
 	const { username } = req.params;
 	try {
 		const user = await User.findOne({ username });
@@ -167,5 +173,3 @@ const getUserPosts = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
-
-export { createPost, getPost, deletePost, likeUnlikePost, replyToPost, getFeedPosts, getUserPosts };

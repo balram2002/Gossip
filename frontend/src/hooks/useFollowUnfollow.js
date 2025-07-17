@@ -2,6 +2,7 @@ import { useState } from "react";
 import useShowToast from "./useShowToast";
 import userAtom from "../atoms/userAtom";
 import { useRecoilValue } from "recoil";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const useFollowUnfollow = (user) => {
 	const currentUser = useRecoilValue(userAtom);
@@ -18,11 +19,12 @@ const useFollowUnfollow = (user) => {
 
 		setUpdating(true);
 		try {
-			const res = await fetch(`https://gossip-api.vercel.app/api/users/follow/${user._id}`, {
+			const res = await fetch(`${API_BASE_URL}/api/users/follow/${user._id}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
+				body: JSON.stringify({ userId: currentUser._id }),
 			});
 			const data = await res.json();
 			if (data.error) {

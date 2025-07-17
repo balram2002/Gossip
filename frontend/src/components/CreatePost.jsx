@@ -26,6 +26,7 @@ import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../atoms/apiUrls";
 
 const MAX_CHAR = 500;
 
@@ -57,12 +58,12 @@ const CreatePost = () => {
 	const handleCreatePost = async () => {
 		setLoading(true);
 		try {
-			const res = await fetch("https://gossip-api.vercel.app/api/posts/create", {
+			const res = await fetch(API_BASE_URL + "/api/posts/create", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ postedBy: user._id, text: postText, img: imgUrl }),
+				body: JSON.stringify({ postedBy: user._id, text: postText, img: imgUrl, userId: user?._id }),
 			});
 
 			const data = await res.json();
