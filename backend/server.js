@@ -34,7 +34,9 @@ cloudinary.config({
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.get('/', (req, res) => {
+    res.send('Gossip api running new deploy');
+});
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
