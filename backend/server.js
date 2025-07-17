@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 app.use(cors({
-    origin: ["http://localhost:3000", "http://localhost:5000"],
+    origin: ["https://gossip-bd.vercel.app", "https://gossip-api.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));
