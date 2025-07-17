@@ -13,6 +13,7 @@ import {
 	Text,
 	useColorModeValue,
 	Link,
+	FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -73,9 +74,12 @@ export default function SignupCard() {
 									<FormLabel>Full name</FormLabel>
 									<Input
 										type='text'
+										placeholder="Enter Your Fullname"
 										onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
 										value={inputs.name}
 									/>
+									<FormHelperText>can use spaces. </FormHelperText>
+
 								</FormControl>
 							</Box>
 							<Box>
@@ -83,9 +87,11 @@ export default function SignupCard() {
 									<FormLabel>Username</FormLabel>
 									<Input
 										type='text'
+										placeholder="Enter your Username"
 										onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
 										value={inputs.username}
 									/>
+									<FormHelperText>Use of special chars and spaces are not allowed.</FormHelperText>
 								</FormControl>
 							</Box>
 						</HStack>
@@ -93,14 +99,17 @@ export default function SignupCard() {
 							<FormLabel>Email address</FormLabel>
 							<Input
 								type='email'
+								placeholder="Enter your Email"
 								onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
 								value={inputs.email}
 							/>
+							<FormHelperText>We'll never share your email.</FormHelperText>
 						</FormControl>
 						<FormControl isRequired>
 							<FormLabel>Password</FormLabel>
 							<InputGroup>
 								<Input
+									placeholder="enter password"
 									type={showPassword ? "text" : "password"}
 									onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
 									value={inputs.password}

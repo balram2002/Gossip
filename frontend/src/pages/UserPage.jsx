@@ -59,7 +59,7 @@ const UserPage = () => {
 				<Box rounded={"lg"} bg={useColorModeValue("white", "gray.light")} marginY={1} boxShadow={"lg"} p={2} paddingRight={4}>
 
 					{!fetchingPosts && posts.length === 0 && <Text textAlign={"center"} alignItems={"center"}>User has 0 posts, Create some Posts first.</Text>}
-					{posts && posts.map((post) => (
+					{posts && posts?.map((post) => (
 						<Post key={post._id} post={post} postedBy={post.postedBy} />
 					))}
 				</Box>

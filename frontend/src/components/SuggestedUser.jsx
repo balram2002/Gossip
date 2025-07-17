@@ -20,7 +20,10 @@ const SuggestedUser = ({ user }) => {
 					}}>
 						{user.username}
 					</Text>
-					<Text color={"gray.light"} fontSize={"sm"}>
+					<Text color={"gray.light"} fontSize={"sm"} onClick={(e) => {
+						e.preventDefault();
+						navigate(`/${user.username}`)
+					}}>
 						{user.name}
 					</Text>
 				</Box>
