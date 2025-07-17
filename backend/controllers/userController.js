@@ -189,7 +189,7 @@ const updateUser = async (req, res) => {
 
 const getSuggestedUsers = async (req, res) => {
 	try {
-		const userId = req.user._id;
+		const userId = req?.user?._id;
 
 		const usersFollowedByYou = await User.findById(userId).select("following");
 

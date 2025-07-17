@@ -6,8 +6,10 @@ import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
 import SuggestedUsers from "../components/SuggestedUsers";
 import { useParams } from "react-router-dom";
+import useGetUserProfile from "../hooks/useGetUserProfile";
 
 const HomePage = () => {
+	const { user, loading: userLoading } = useGetUserProfile();
 	const [posts, setPosts] = useRecoilState(postsAtom);
 	const [post, setPost] = useState();
 	const [loading, setLoading] = useState(true);
@@ -17,7 +19,15 @@ const HomePage = () => {
 			setLoading(true);
 			setPosts([]);
 			try {
-				const res = await fetch("https://gossip-api.vercel.app/api/posts/feed");
+				const res = await fetch("https://gossip-api.vercel.app/api/posts/feed", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						userId: user?._id || "",
+					}),
+				});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
