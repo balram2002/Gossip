@@ -6,9 +6,10 @@ const generateTokenAndSetCookie = (userId, res) => {
 	});
 
 	res.cookie("jwt", token, {
-		httpOnly: true, // more secure
-		maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-		sameSite: "strict", // CSRF
+		httpOnly: true,
+		secure: true,        // Only send over HTTPS (true for Vercel)
+		sameSite: "None",    // Allow cross-site requests
+		maxAge: 7 * 24 * 60 * 60 * 1000,
 	});
 
 	return token;

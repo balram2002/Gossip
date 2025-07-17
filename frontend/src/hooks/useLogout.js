@@ -10,6 +10,7 @@ const useLogout = () => {
 		try {
 			const res = await fetch("https://gossip-api.vercel.app/api/users/logout", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},

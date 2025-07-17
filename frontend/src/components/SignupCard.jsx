@@ -39,6 +39,7 @@ export default function SignupCard() {
 		try {
 			const res = await fetch("https://gossip-api.vercel.app/api/users/signup", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
