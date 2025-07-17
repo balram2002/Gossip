@@ -1,1 +1,1 @@
-export const API_BASE_URL = "https://gossip-api.vercel.app/"; // Update this to your backend URL
+export const API_BASE_URL = "https://gossip-api.vercel.app"; // Update this to your backend URL
