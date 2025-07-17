@@ -39,7 +39,7 @@ const MessageInput = ({ setMessages }) => {
 		setIsSending(true);
 
 		try {
-			const res = await fetch("/api/messages", {
+			const res = await fetch("https://gossip-api.vercel.app/api/messages", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
