@@ -11,7 +11,7 @@ import { RecoilRoot } from "recoil";
 import { SocketContextProvider } from "./context/SocketContext.jsx";
 
 const styles = {
-	global: (props) => ({
+	global: (props) => ({ 
 		body: {
 			color: mode("gray.800", "whiteAlpha.900")(props),
 			bg: mode("gray.100", "#101010")(props),
